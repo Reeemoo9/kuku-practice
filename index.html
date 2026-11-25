@@ -4,131 +4,165 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#fff6c8">
-
-  <title>九九れんしゅう</title>
-
+  <title>九九クエスト</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
 <main class="app">
 
-  <!-- ==============================
-       スタート画面
-  ============================== -->
-
+  <!-- =========================
+       スタート
+  ========================== -->
   <section id="start-screen" class="screen active">
 
-    <div class="title-icon">🌟</div>
+    <div class="title-icon">⚔️</div>
 
-    <h1>九九れんしゅう</h1>
+    <h1>九九クエスト</h1>
 
     <p class="subtitle">
-      れんしゅうする「だん」を えらぼう！
+      九九をつかって モンスターをたおそう！
     </p>
 
-
     <div class="dan-buttons">
-
-      <button class="dan-button" data-dan="2">
-        2のだん
-      </button>
-
-      <button class="dan-button" data-dan="3">
-        3のだん
-      </button>
-
-      <button class="dan-button" data-dan="4">
-        4のだん
-      </button>
-
-      <button class="dan-button" data-dan="5">
-        5のだん
-      </button>
-
-      <button class="dan-button" data-dan="6">
-        6のだん
-      </button>
-
-      <button class="dan-button" data-dan="7">
-        7のだん
-      </button>
-
-      <button class="dan-button" data-dan="8">
-        8のだん
-      </button>
-
-      <button class="dan-button" data-dan="9">
-        9のだん
-      </button>
-
+      <button type="button" class="dan-button" data-dan="2">2のだん</button>
+      <button type="button" class="dan-button" data-dan="3">3のだん</button>
+      <button type="button" class="dan-button" data-dan="4">4のだん</button>
+      <button type="button" class="dan-button" data-dan="5">5のだん</button>
+      <button type="button" class="dan-button" data-dan="6">6のだん</button>
+      <button type="button" class="dan-button" data-dan="7">7のだん</button>
+      <button type="button" class="dan-button" data-dan="8">8のだん</button>
+      <button type="button" class="dan-button" data-dan="9">9のだん</button>
     </div>
 
-
     <div class="special-buttons">
-
-      <button id="mix-button" class="menu-button mix">
+      <button type="button" id="mix-button" class="menu-button mix">
         🔀 ごちゃまぜ
       </button>
 
-      <button id="weak-button" class="menu-button weak">
+      <button type="button" id="weak-button" class="menu-button weak">
         🔥 にがてもんだい
       </button>
 
-      <button id="stats-button" class="menu-button stats">
+      <button type="button" id="stats-button" class="menu-button stats">
         📊 がくしゅうきろく
       </button>
-
     </div>
 
   </section>
 
 
-  <!-- ==============================
-       出題方法選択
-  ============================== -->
-
+  <!-- =========================
+       コース選択
+  ========================== -->
   <section id="mode-screen" class="screen">
 
-    <button id="mode-back-button" class="back-button">
+    <button type="button" id="mode-back-button" class="back-button">
       ← もどる
     </button>
 
     <div class="mode-card">
 
-      <div class="mode-icon">✏️</div>
+      <h2 id="mode-title">7のだん</h2>
 
-      <h2 id="mode-title">
-        7のだん
-      </h2>
+      <!-- 出題方法 -->
+      <div id="practice-mode-area">
 
-      <p class="mode-description">
-        どっちで れんしゅうする？
+        <p class="choice-title">れんしゅう方法</p>
+
+        <div class="choice-grid">
+
+          <button
+            type="button"
+            id="order-button"
+            class="choice-button selected">
+
+            <span class="choice-icon">🔢</span>
+
+            <strong>じゅんばん</strong>
+
+            <small>
+              1から9まで
+            </small>
+
+          </button>
+
+          <button
+            type="button"
+            id="random-button"
+            class="choice-button">
+
+            <span class="choice-icon">🎲</span>
+
+            <strong>ランダム</strong>
+
+            <small>
+              バラバラ10もん
+            </small>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- 難易度 -->
+      <p class="choice-title">
+        むずかしさ
       </p>
 
+      <div class="difficulty-list">
 
-      <button id="order-button" class="mode-button order">
+        <button
+          type="button"
+          class="difficulty-button selected"
+          data-difficulty="easy">
 
-        <span class="mode-button-icon">🔢</span>
+          <span>🌱</span>
 
-        <span>
-          <strong>じゅんばん</strong>
-          <small>1から9まで じゅんばんに</small>
-        </span>
+          <div>
+            <strong>やさしい</strong>
+            <small>15びょう　❤️×5</small>
+          </div>
 
-      </button>
+        </button>
 
 
-      <button id="random-button" class="mode-button random">
+        <button
+          type="button"
+          class="difficulty-button"
+          data-difficulty="normal">
 
-        <span class="mode-button-icon">🎲</span>
+          <span>⚔️</span>
 
-        <span>
-          <strong>ランダム</strong>
-          <small>バラバラに 10もん！</small>
-        </span>
+          <div>
+            <strong>ふつう</strong>
+            <small>10びょう　❤️×3</small>
+          </div>
 
+        </button>
+
+
+        <button
+          type="button"
+          class="difficulty-button"
+          data-difficulty="hard">
+
+          <span>🔥</span>
+
+          <div>
+            <strong>むずかしい</strong>
+            <small>5びょう　❤️×2</small>
+          </div>
+
+        </button>
+
+      </div>
+
+
+      <button type="button" id="start-battle-button" class="start-battle-button">
+        ⚔️ ぼうけんスタート！
       </button>
 
     </div>
@@ -136,56 +170,112 @@
   </section>
 
 
-  <!-- ==============================
-       問題画面
-  ============================== -->
-
+  <!-- =========================
+       バトル
+  ========================== -->
   <section id="quiz-screen" class="screen">
 
     <div class="quiz-header">
 
-      <button id="back-button" class="back-button">
+      <button type="button" id="back-button" class="back-button">
         ← もどる
       </button>
 
       <div id="progress">
-        1 / 10
+        1 / 9
       </div>
 
-      <div id="score">
-        ⭐ 0
+      <div id="difficulty-label">
+        🌱
       </div>
 
     </div>
 
 
-    <div class="question-card">
+    <!-- バトル -->
+    <div class="battle-panel">
 
-      <p id="dan-label" class="dan-label">
-        2のだん
-      </p>
+      <div id="hero-box" class="fighter">
 
+        <div id="hero-character" class="character">
+          🧙
+        </div>
 
-      <div id="question" class="question">
-        2 × 3 = ?
+        <div class="fighter-name">
+          ぼうけんしゃ
+        </div>
+
+        <div
+          id="hero-lives"
+          class="hero-lives">
+          ❤️❤️❤️❤️❤️
+        </div>
+
       </div>
 
 
-      <form id="answer-form">
+      <div class="battle-center">
+        <div id="battle-effect" class="battle-effect"></div>
+      </div>
 
-        <input
-          id="answer"
-          type="text"
-          inputmode="numeric"
-          pattern="[0-9]*"
-          autocomplete="off"
-          enterkeyhint="done"
-          maxlength="2"
-          placeholder="?"
-          aria-label="こたえ"
-        >
 
-      </form>
+      <div id="monster-box" class="fighter">
+
+        <div id="monster-character" class="character">
+          👾
+        </div>
+
+        <div class="fighter-name">
+          モンスター
+        </div>
+
+        <div class="monster-hp-text">
+          HP
+          <span id="monster-hp-text">9 / 9</span>
+        </div>
+
+        <div class="hp-bar">
+          <div id="monster-hp-bar" class="hp-value"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- 問題カード -->
+    <div class="question-card">
+
+      <div class="question-top">
+
+        <p id="dan-label" class="dan-label">
+          6のだん
+        </p>
+
+        <div id="timer-text" class="timer-text">
+          ⏱️ 15
+        </div>
+
+      </div>
+
+
+      <div class="timer-bar">
+        <div id="timer-value" class="timer-value"></div>
+      </div>
+
+
+      <div id="question" class="question">
+        6 × 1 = ?
+      </div>
+
+
+      <div
+        id="answer-display"
+        class="answer-display empty"
+        aria-live="polite"
+        aria-label="こたえ">
+        ?
+      </div>
 
 
       <div
@@ -196,20 +286,18 @@
 
 
       <button
-        id="next-button"
         type="button"
+        id="next-button"
         class="next-button hidden">
-
         つぎのもんだい →
-
       </button>
 
 
-      <div id="history-area" class="history-area">
+      <div class="history-area">
 
-        <p class="history-title">
+        <span class="history-title">
           これまで
-        </p>
+        </span>
 
         <div
           id="answer-history"
@@ -220,43 +308,68 @@
 
     </div>
 
+
+    <!-- テンキー -->
+    <div id="number-pad" class="number-pad">
+
+      <button type="button" class="number-key" data-number="1">1</button>
+      <button type="button" class="number-key" data-number="2">2</button>
+      <button type="button" class="number-key" data-number="3">3</button>
+
+      <button type="button" class="number-key" data-number="4">4</button>
+      <button type="button" class="number-key" data-number="5">5</button>
+      <button type="button" class="number-key" data-number="6">6</button>
+
+      <button type="button" class="number-key" data-number="7">7</button>
+      <button type="button" class="number-key" data-number="8">8</button>
+      <button type="button" class="number-key" data-number="9">9</button>
+
+      <button type="button" id="clear-key" class="control-key">
+        けす
+      </button>
+
+      <button type="button" class="number-key" data-number="0">0</button>
+
+      <button type="button" id="decide-key" class="decide-key">
+        けってい
+      </button>
+
+    </div>
+
   </section>
 
 
-  <!-- ==============================
-       結果画面
-  ============================== -->
-
+  <!-- =========================
+       結果
+  ========================== -->
   <section id="result-screen" class="screen">
 
     <div id="result-icon" class="result-icon">
-      🎉
+      🏆
     </div>
 
-    <h2>おつかれさま！</h2>
+    <h2 id="result-title">
+      モンスターを たおした！
+    </h2>
 
-
-    <div id="result-score" class="result-score">
+    <div id="result-monster" class="result-monster">
+      💥
     </div>
 
+    <div id="result-score" class="result-score"></div>
 
-    <p id="result-message" class="result-message">
-    </p>
+    <p id="result-message" class="result-message"></p>
 
 
     <div id="mistakes-area" class="mistakes-area hidden">
 
-      <h3>
-        もういちど やってみよう！
-      </h3>
+      <h3>もういちど やってみよう！</h3>
 
-      <div id="mistake-list">
-      </div>
-
+      <div id="mistake-list"></div>
 
       <button
-        id="retry-button"
         type="button"
+        id="retry-button"
         class="retry-button">
 
         🔥 まちがえたもんだいに ちょうせん！
@@ -267,69 +380,58 @@
 
 
     <button
-      id="restart-button"
       type="button"
+      id="restart-button"
       class="restart-button">
 
-      🏠 だんを えらぶ
+      🏠 コースを えらぶ
 
     </button>
 
   </section>
 
 
-  <!-- ==============================
+  <!-- =========================
        学習記録
-  ============================== -->
-
+  ========================== -->
   <section id="stats-screen" class="screen">
 
     <div class="stats-header">
 
-      <button id="stats-back-button" class="back-button">
+      <button
+        type="button"
+        id="stats-back-button"
+        class="back-button">
         ← もどる
       </button>
 
-      <h2>
-        📊 がくしゅうきろく
-      </h2>
+      <h2>📊 がくしゅうきろく</h2>
 
     </div>
 
 
     <div class="stats-card">
 
-      <h3>
-        だんごとの せいせき
-      </h3>
+      <h3>だんごとの せいせき</h3>
 
       <div class="stat-table-header">
-
         <span>だん</span>
-
         <span>せいとうりつ</span>
-
         <span>ちょうせん</span>
-
       </div>
 
-
-      <div id="dan-stats">
-      </div>
+      <div id="dan-stats"></div>
 
     </div>
 
 
     <div class="stats-card">
 
-      <h3>
-        九九ヒートマップ
-      </h3>
+      <h3>九九ヒートマップ</h3>
 
       <p class="stats-help">
         にがてな もんだいを みつけよう！
       </p>
-
 
       <div class="heat-legend">
 
@@ -352,20 +454,15 @@
 
 
       <div class="heatmap-wrapper">
-
-        <div
-          id="heatmap"
-          class="heatmap">
-        </div>
-
+        <div id="heatmap" class="heatmap"></div>
       </div>
 
     </div>
 
 
     <button
-      id="clear-stats-button"
       type="button"
+      id="clear-stats-button"
       class="clear-stats-button">
 
       🗑️ きろくをリセット
@@ -375,7 +472,6 @@
   </section>
 
 </main>
-
 
 <script src="app.js"></script>
 

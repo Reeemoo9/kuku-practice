@@ -1,276 +1,650 @@
-const TOTAL_QUESTIONS = 10;
+const TOTAL_RANDOM_QUESTIONS = 10;
+const STORAGE_KEY = "kuku-study-history-v2";
 
-const startScreen = document.getElementById("start-screen");
-const quizScreen = document.getElementById("quiz-screen");
-const resultScreen = document.getElementById("result-screen");
 
-const danButtons = document.querySelectorAll(".dan-button");
+/* ==============================
+   DOM
+============================== */
 
-const backButton = document.getElementById("back-button");
-const progress = document.getElementById("progress");
-const scoreDisplay = document.getElementById("score");
+const startScreen =
+  document.getElementById("start-screen");
 
-const danLabel = document.getElementById("dan-label");
-const questionElement = document.getElementById("question");
+const modeScreen =
+  document.getElementById("mode-screen");
 
-const answerForm = document.getElementById("answer-form");
-const answerInput = document.getElementById("answer");
+const quizScreen =
+  document.getElementById("quiz-screen");
 
-const message = document.getElementById("message");
-const nextButton = document.getElementById("next-button");
+const resultScreen =
+  document.getElementById("result-screen");
 
-// 過去の正誤履歴
-const answerHistory = document.getElementById("answer-history");
+const statsScreen =
+  document.getElementById("stats-screen");
 
-const resultIcon = document.getElementById("result-icon");
-const resultScore = document.getElementById("result-score");
-const resultMessage = document.getElementById("result-message");
 
-const mistakesArea = document.getElementById("mistakes-area");
-const mistakeList = document.getElementById("mistake-list");
+const danButtons =
+  document.querySelectorAll(".dan-button");
 
-const retryButton = document.getElementById("retry-button");
-const restartButton = document.getElementById("restart-button");
+
+const modeBackButton =
+  document.getElementById("mode-back-button");
+
+const modeTitle =
+  document.getElementById("mode-title");
+
+const orderButton =
+  document.getElementById("order-button");
+
+const randomButton =
+  document.getElementById("random-button");
+
+
+const mixButton =
+  document.getElementById("mix-button");
+
+const weakButton =
+  document.getElementById("weak-button");
+
+const statsButton =
+  document.getElementById("stats-button");
+
+
+const backButton =
+  document.getElementById("back-button");
+
+const progress =
+  document.getElementById("progress");
+
+const scoreDisplay =
+  document.getElementById("score");
+
+const danLabel =
+  document.getElementById("dan-label");
+
+const questionElement =
+  document.getElementById("question");
+
+const answerForm =
+  document.getElementById("answer-form");
+
+const answerInput =
+  document.getElementById("answer");
+
+const message =
+  document.getElementById("message");
+
+const nextButton =
+  document.getElementById("next-button");
+
+const answerHistory =
+  document.getElementById("answer-history");
+
+
+const resultIcon =
+  document.getElementById("result-icon");
+
+const resultScore =
+  document.getElementById("result-score");
+
+const resultMessage =
+  document.getElementById("result-message");
+
+const mistakesArea =
+  document.getElementById("mistakes-area");
+
+const mistakeList =
+  document.getElementById("mistake-list");
+
+const retryButton =
+  document.getElementById("retry-button");
+
+const restartButton =
+  document.getElementById("restart-button");
+
+
+const statsBackButton =
+  document.getElementById("stats-back-button");
+
+const danStats =
+  document.getElementById("dan-stats");
+
+const heatmap =
+  document.getElementById("heatmap");
+
+const clearStatsButton =
+  document.getElementById("clear-stats-button");
+
+
+/* ==============================
+   状態
+============================== */
 
 let selectedDan = null;
 
+let gameMode = null;
+
 let questions = [];
+
 let currentIndex = 0;
+
 let score = 0;
+
 let mistakes = [];
 
-// true = 正解
-// false = 不正解
 let history = [];
 
 let retryMode = false;
 
 
-/* ------------------------------
-   画面切り替え
------------------------------- */
+/* ==============================
+   画面切替
+============================== */
 
 function showScreen(screen) {
-  startScreen.classList.remove("active");
-  quizScreen.classList.remove("active");
-  resultScreen.classList.remove("active");
+
+  [
+    startScreen,
+    modeScreen,
+    quizScreen,
+    resultScreen,
+    statsScreen
+  ].forEach((item) => {
+
+    item.classList.remove("active");
+
+  });
+
 
   screen.classList.add("active");
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
 }
 
 
-/* ------------------------------
-   入力制御
-   数字のみ・最大2桁
------------------------------- */
+/* ==============================
+   数字入力制御
+============================== */
 
-answerInput.addEventListener("input", () => {
-  answerInput.value = answerInput.value
-    .replace(/[^0-9]/g, "")
-    .slice(0, 2);
-});
+answerInput.addEventListener(
+  "input",
+  () => {
+
+    answerInput.value =
+      answerInput.value
+        .replace(/[^0-9]/g, "")
+        .slice(0, 2);
+
+  }
+);
 
 
-/* ------------------------------
-   段を選ぶ
------------------------------- */
+/* ==============================
+   段選択
+============================== */
 
 danButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const value = button.dataset.dan;
 
-    selectedDan =
-      value === "random"
-        ? "random"
-        : Number(value);
+  button.addEventListener(
+    "click",
+    () => {
 
-    startGame();
-  });
+      selectedDan =
+        Number(button.dataset.dan);
+
+      modeTitle.textContent =
+        `${selectedDan}のだん`;
+
+      showScreen(modeScreen);
+
+    }
+  );
+
 });
 
 
-/* ------------------------------
+/* ==============================
+   モード選択
+============================== */
+
+orderButton.addEventListener(
+  "click",
+  () => {
+
+    gameMode = "order";
+
+    startGame();
+
+  }
+);
+
+
+randomButton.addEventListener(
+  "click",
+  () => {
+
+    gameMode = "random";
+
+    startGame();
+
+  }
+);
+
+
+modeBackButton.addEventListener(
+  "click",
+  () => {
+
+    showScreen(startScreen);
+
+  }
+);
+
+
+/* ==============================
+   ごちゃまぜ
+============================== */
+
+mixButton.addEventListener(
+  "click",
+  () => {
+
+    selectedDan = null;
+
+    gameMode = "mix";
+
+    startGame();
+
+  }
+);
+
+
+/* ==============================
+   苦手問題
+============================== */
+
+weakButton.addEventListener(
+  "click",
+  () => {
+
+    const weakQuestions =
+      createWeakQuestions();
+
+
+    if (weakQuestions.length === 0) {
+
+      alert(
+        "まだ にがてデータがないよ！\nまずは九九をれんしゅうしてみよう！"
+      );
+
+      return;
+
+    }
+
+
+    selectedDan = null;
+
+    gameMode = "weak";
+
+    questions = weakQuestions;
+
+    resetGameState();
+
+    showScreen(quizScreen);
+
+    updateHistory();
+
+    showQuestion();
+
+  }
+);
+
+
+/* ==============================
    ゲーム開始
------------------------------- */
+============================== */
 
 function startGame() {
-  currentIndex = 0;
-  score = 0;
-  mistakes = [];
-  history = [];
 
-  retryMode = false;
+  questions =
+    createQuestions();
 
-  questions = createQuestions();
+  resetGameState();
 
   showScreen(quizScreen);
 
   updateHistory();
+
   showQuestion();
+
 }
 
 
-/* ------------------------------
-   問題を作る
------------------------------- */
+/* ==============================
+   ゲーム状態初期化
+============================== */
+
+function resetGameState() {
+
+  currentIndex = 0;
+
+  score = 0;
+
+  mistakes = [];
+
+  history = [];
+
+  retryMode = false;
+
+}
+
+
+/* ==============================
+   問題生成
+============================== */
 
 function createQuestions() {
-  const createdQuestions = [];
 
   /*
-    同じ段の場合は1〜9をシャッフル。
-    最初の9問は重複しない。
+    順番
+    ×1 ～ ×9
   */
 
-  if (selectedDan !== "random") {
-    const multipliers = shuffle([
-      1, 2, 3, 4, 5, 6, 7, 8, 9
-    ]);
+  if (gameMode === "order") {
 
-    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
-      const b =
-        i < multipliers.length
-          ? multipliers[i]
-          : randomNumber(1, 9);
+    return Array.from(
+      { length: 9 },
+      (_, index) => {
 
-      createdQuestions.push({
-        a: selectedDan,
-        b: b,
-        answer: selectedDan * b
-      });
-    }
-  } else {
+        const b =
+          index + 1;
 
-    /*
-      ごちゃまぜ
-      2〜9の段からランダム出題
-    */
+        return {
 
-    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
-      const a = randomNumber(2, 9);
-      const b = randomNumber(1, 9);
+          a: selectedDan,
 
-      createdQuestions.push({
-        a: a,
-        b: b,
-        answer: a * b
-      });
-    }
+          b: b,
+
+          answer:
+            selectedDan * b
+
+        };
+
+      }
+    );
+
   }
 
-  return createdQuestions;
+
+  /*
+    段別ランダム
+  */
+
+  if (gameMode === "random") {
+
+    const values =
+      shuffle([
+        1, 2, 3, 4, 5,
+        6, 7, 8, 9
+      ]);
+
+
+    const result = [];
+
+
+    for (
+      let i = 0;
+      i < TOTAL_RANDOM_QUESTIONS;
+      i++
+    ) {
+
+      const b =
+        i < 9
+          ? values[i]
+          : randomNumber(1, 9);
+
+
+      result.push({
+
+        a: selectedDan,
+
+        b: b,
+
+        answer:
+          selectedDan * b
+
+      });
+
+    }
+
+
+    return result;
+
+  }
+
+
+  /*
+    ごちゃまぜ
+  */
+
+  if (gameMode === "mix") {
+
+    const result = [];
+
+
+    for (
+      let i = 0;
+      i < TOTAL_RANDOM_QUESTIONS;
+      i++
+    ) {
+
+      const a =
+        randomNumber(2, 9);
+
+      const b =
+        randomNumber(1, 9);
+
+
+      result.push({
+
+        a: a,
+
+        b: b,
+
+        answer:
+          a * b
+
+      });
+
+    }
+
+
+    return result;
+
+  }
+
+
+  return [];
+
 }
 
 
-/* ------------------------------
+/* ==============================
    問題表示
------------------------------- */
+============================== */
 
 function showQuestion() {
-  const currentQuestion = questions[currentIndex];
+
+  const currentQuestion =
+    questions[currentIndex];
+
 
   progress.textContent =
     `${currentIndex + 1} / ${questions.length}`;
 
-  scoreDisplay.textContent = `⭐ ${score}`;
+
+  scoreDisplay.textContent =
+    `⭐ ${score}`;
 
 
   /*
-    段ラベル
+    ラベル
   */
 
   if (retryMode) {
-    danLabel.textContent = "🔥 もういちど！";
 
-  } else if (selectedDan === "random") {
-    danLabel.textContent = "🔀 ごちゃまぜ";
+    danLabel.textContent =
+      "🔥 もういちど！";
 
-  } else {
-    danLabel.textContent = `${selectedDan}のだん`;
   }
 
+  else if (gameMode === "mix") {
 
-  /*
-    問題
-  */
+    danLabel.textContent =
+      "🔀 ごちゃまぜ";
+
+  }
+
+  else if (gameMode === "weak") {
+
+    danLabel.textContent =
+      "🔥 にがてもんだい";
+
+  }
+
+  else if (gameMode === "order") {
+
+    danLabel.textContent =
+      `${selectedDan}のだん・じゅんばん`;
+
+  }
+
+  else {
+
+    danLabel.textContent =
+      `${selectedDan}のだん・ランダム`;
+
+  }
+
 
   questionElement.textContent =
     `${currentQuestion.a} × ${currentQuestion.b} = ?`;
 
 
-  /*
-    入力欄をリセット
-  */
-
   answerInput.value = "";
+
   answerInput.disabled = false;
 
-  message.textContent = "";
-  message.className = "message";
 
-  nextButton.classList.add("hidden");
+  message.textContent = "";
+
+  message.className =
+    "message";
+
+
+  nextButton.classList.add(
+    "hidden"
+  );
 
 
   /*
-    PCではすぐ入力可能にする
+    PCでは自動フォーカス
   */
 
-  setTimeout(() => {
-    answerInput.focus();
-  }, 100);
+  if (
+    !window.matchMedia(
+      "(pointer: coarse)"
+    ).matches
+  ) {
+
+    setTimeout(
+      () => {
+
+        answerInput.focus();
+
+      },
+      100
+    );
+
+  }
+
 }
 
 
-/* ------------------------------
-   Enter / 完了で答え合わせ
------------------------------- */
+/* ==============================
+   Enter / 完了
+============================== */
 
-answerForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+answerForm.addEventListener(
+  "submit",
+  (event) => {
 
-  checkAnswer();
-});
+    event.preventDefault();
+
+    checkAnswer();
+
+  }
+);
 
 
-/* ------------------------------
+/* ==============================
    答え合わせ
------------------------------- */
+============================== */
 
 function checkAnswer() {
-  const currentQuestion = questions[currentIndex];
 
-  const inputValue = answerInput.value.trim();
+  const currentQuestion =
+    questions[currentIndex];
 
 
-  /*
-    未入力
-  */
+  const inputValue =
+    answerInput.value.trim();
+
 
   if (inputValue === "") {
-    message.textContent = "こたえを いれてね！";
-    message.className = "message wrong";
+
+    message.textContent =
+      "こたえを いれてね！";
+
+    message.className =
+      "message wrong";
 
     answerInput.focus();
 
     return;
+
   }
 
 
-  const userAnswer = Number(inputValue);
+  const userAnswer =
+    Number(inputValue);
+
+
+  const isCorrect =
+    userAnswer ===
+    currentQuestion.answer;
 
 
   /*
     正解
   */
 
-  if (userAnswer === currentQuestion.answer) {
+  if (isCorrect) {
 
     score++;
 
     history.push(true);
 
-    message.textContent = randomCorrectMessage();
-    message.className = "message correct";
+    message.textContent =
+      randomCorrectMessage();
+
+    message.className =
+      "message correct";
+
   }
 
 
@@ -282,422 +656,1159 @@ function checkAnswer() {
 
     history.push(false);
 
+
     message.textContent =
       `おしい！ こたえは ${currentQuestion.answer} だよ！`;
 
-    message.className = "message wrong";
 
+    message.className =
+      "message wrong";
 
-    /*
-      通常モードのみ
-      間違えた問題を保存
-    */
 
     if (!retryMode) {
+
       mistakes.push({
+
         ...currentQuestion,
-        userAnswer: userAnswer
+
+        userAnswer:
+          userAnswer
+
       });
+
     }
+
   }
 
 
   /*
-    〇×履歴更新
+    学習履歴保存
+    復習問題も回答実績として保存
   */
+
+  saveStudyResult({
+
+    a: currentQuestion.a,
+
+    b: currentQuestion.b,
+
+    answer:
+      currentQuestion.answer,
+
+    userAnswer:
+      userAnswer,
+
+    correct:
+      isCorrect,
+
+    mode:
+      retryMode
+        ? "retry"
+        : gameMode,
+
+    date:
+      new Date().toISOString()
+
+  });
+
 
   updateHistory();
 
 
-  /*
-    スコア更新
-  */
-
-  scoreDisplay.textContent = `⭐ ${score}`;
+  scoreDisplay.textContent =
+    `⭐ ${score}`;
 
 
-  /*
-    二重回答を防ぐ
-  */
-
-  answerInput.disabled = true;
+  answerInput.disabled =
+    true;
 
 
-  /*
-    次へボタン表示
-  */
-
-  nextButton.classList.remove("hidden");
+  nextButton.classList.remove(
+    "hidden"
+  );
 
 
-  /*
-    最後の問題
-  */
+  if (
+    currentIndex ===
+    questions.length - 1
+  ) {
 
-  if (currentIndex === questions.length - 1) {
     nextButton.textContent =
       "けっかをみる！ 🎉";
-  } else {
+
+  }
+
+  else {
+
     nextButton.textContent =
       "つぎのもんだい →";
+
   }
+
 }
 
 
-/* ------------------------------
-   過去10問の正誤履歴
------------------------------- */
+/* ==============================
+   〇×履歴
+============================== */
 
 function updateHistory() {
-  answerHistory.innerHTML = "";
 
+  answerHistory.innerHTML =
+    "";
 
-  /*
-    通常モードは10個
-    復習モードは復習問題数
-  */
 
   const totalMarks =
-    retryMode
-      ? questions.length
-      : TOTAL_QUESTIONS;
+    questions.length;
 
 
-  for (let i = 0; i < totalMarks; i++) {
+  for (
+    let i = 0;
+    i < totalMarks;
+    i++
+  ) {
+
     const mark =
       document.createElement("span");
 
-    mark.classList.add("history-mark");
 
+    mark.classList.add(
+      "history-mark"
+    );
 
-    /*
-      回答済み
-    */
 
     if (i < history.length) {
 
-      /*
-        正解
-      */
-
       if (history[i]) {
-        mark.textContent = "〇";
-        mark.classList.add("correct");
+
+        mark.textContent =
+          "〇";
+
+        mark.classList.add(
+          "correct"
+        );
 
         mark.setAttribute(
           "aria-label",
           `${i + 1}問目 正解`
         );
+
       }
 
-
-      /*
-        不正解
-      */
-
       else {
-        mark.textContent = "×";
-        mark.classList.add("wrong");
+
+        mark.textContent =
+          "×";
+
+        mark.classList.add(
+          "wrong"
+        );
 
         mark.setAttribute(
           "aria-label",
           `${i + 1}問目 不正解`
         );
+
       }
+
     }
-
-
-    /*
-      未回答
-    */
 
     else {
-      mark.textContent = "・";
-      mark.classList.add("empty");
 
-      mark.setAttribute(
-        "aria-label",
-        `${i + 1}問目 未回答`
+      mark.textContent =
+        "・";
+
+      mark.classList.add(
+        "empty"
       );
+
     }
 
 
-    answerHistory.appendChild(mark);
+    answerHistory.appendChild(
+      mark
+    );
+
   }
+
 }
 
 
-/* ------------------------------
-   次の問題
------------------------------- */
+/* ==============================
+   次
+============================== */
 
-nextButton.addEventListener("click", () => {
-  currentIndex++;
+nextButton.addEventListener(
+  "click",
+  () => {
+
+    currentIndex++;
 
 
-  /*
-    全問終了
-  */
+    if (
+      currentIndex >=
+      questions.length
+    ) {
 
-  if (currentIndex >= questions.length) {
-    showResult();
+      showResult();
 
-    return;
+      return;
+
+    }
+
+
+    showQuestion();
+
   }
+);
 
 
-  /*
-    次の問題
-  */
-
-  showQuestion();
-});
-
-
-/* ------------------------------
-   結果画面
------------------------------- */
+/* ==============================
+   結果
+============================== */
 
 function showResult() {
-  showScreen(resultScreen);
 
+  showScreen(
+    resultScreen
+  );
 
-  /*
-    復習モード
-  */
 
   if (retryMode) {
-    resultIcon.textContent = "🔥";
+
+    resultIcon.textContent =
+      "🔥";
+
 
     resultScore.textContent =
       `${questions.length}もん おわったよ！`;
 
+
     resultMessage.textContent =
       "にがてなもんだいに ちょうせんできたね！";
 
-    mistakesArea.classList.add("hidden");
+
+    mistakesArea.classList.add(
+      "hidden"
+    );
+
 
     return;
+
   }
 
 
-  /*
-    通常モード
-  */
-
   resultScore.textContent =
-    `${TOTAL_QUESTIONS}もんちゅう ${score}もん せいかい！`;
+    `${questions.length}もんちゅう ${score}もん せいかい！`;
 
 
-  /*
-    10問正解
-  */
+  const rate =
+    score / questions.length;
 
-  if (score === TOTAL_QUESTIONS) {
-    resultIcon.textContent = "🏆";
+
+  if (rate === 1) {
+
+    resultIcon.textContent =
+      "🏆";
 
     resultMessage.textContent =
       "パーフェクト！！ 九九マスターだ！";
+
   }
 
+  else if (rate >= 0.8) {
 
-  /*
-    8〜9問正解
-  */
-
-  else if (score >= 8) {
-    resultIcon.textContent = "🎉";
+    resultIcon.textContent =
+      "🎉";
 
     resultMessage.textContent =
       "すごい！ あとちょっとでパーフェクト！";
+
   }
 
+  else if (rate >= 0.5) {
 
-  /*
-    5〜7問正解
-  */
-
-  else if (score >= 5) {
-    resultIcon.textContent = "😊";
+    resultIcon.textContent =
+      "😊";
 
     resultMessage.textContent =
       "いいかんじ！ もういちどやってみよう！";
+
   }
 
-
-  /*
-    0〜4問正解
-  */
-
   else {
-    resultIcon.textContent = "💪";
+
+    resultIcon.textContent =
+      "💪";
 
     resultMessage.textContent =
       "だいじょうぶ！ ゆっくりおぼえていこう！";
+
   }
 
 
   displayMistakes();
+
 }
 
 
-/* ------------------------------
-   間違えた問題を表示
------------------------------- */
+/* ==============================
+   間違い表示
+============================== */
 
 function displayMistakes() {
-  mistakeList.innerHTML = "";
+
+  mistakeList.innerHTML =
+    "";
+
+
+  if (
+    mistakes.length === 0
+  ) {
+
+    mistakesArea.classList.add(
+      "hidden"
+    );
+
+    return;
+
+  }
+
+
+  mistakesArea.classList.remove(
+    "hidden"
+  );
+
+
+  mistakes.forEach(
+    (problem) => {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "mistake-item";
+
+
+      item.textContent =
+        `${problem.a} × ${problem.b} = ${problem.answer}`;
+
+
+      mistakeList.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+
+/* ==============================
+   間違い復習
+============================== */
+
+retryButton.addEventListener(
+  "click",
+  () => {
+
+    questions =
+      mistakes.map(
+        (problem) => ({
+
+          a: problem.a,
+
+          b: problem.b,
+
+          answer:
+            problem.answer
+
+        })
+      );
+
+
+    retryMode =
+      true;
+
+
+    currentIndex =
+      0;
+
+    score =
+      0;
+
+    history =
+      [];
+
+
+    showScreen(
+      quizScreen
+    );
+
+
+    updateHistory();
+
+    showQuestion();
+
+  }
+);
+
+
+/* ==============================
+   戻る
+============================== */
+
+restartButton.addEventListener(
+  "click",
+  () => {
+
+    showScreen(
+      startScreen
+    );
+
+  }
+);
+
+
+backButton.addEventListener(
+  "click",
+  () => {
+
+    showScreen(
+      startScreen
+    );
+
+  }
+);
+
+
+/* ==============================
+   localStorage 保存
+============================== */
+
+function saveStudyResult(result) {
+
+  const data =
+    getStudyHistory();
+
+
+  data.push(result);
+
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* ==============================
+   localStorage 読込
+============================== */
+
+function getStudyHistory() {
+
+  try {
+
+    const text =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+
+    if (!text) {
+
+      return [];
+
+    }
+
+
+    const data =
+      JSON.parse(text);
+
+
+    return Array.isArray(data)
+      ? data
+      : [];
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "学習記録の読み込みに失敗しました。",
+      error
+    );
+
+
+    return [];
+
+  }
+
+}
+
+
+/* ==============================
+   学習記録表示
+============================== */
+
+statsButton.addEventListener(
+  "click",
+  () => {
+
+    renderStats();
+
+    showScreen(
+      statsScreen
+    );
+
+  }
+);
+
+
+statsBackButton.addEventListener(
+  "click",
+  () => {
+
+    showScreen(
+      startScreen
+    );
+
+  }
+);
+
+
+/* ==============================
+   統計全体
+============================== */
+
+function renderStats() {
+
+  const data =
+    getStudyHistory();
+
+
+  renderDanStats(data);
+
+  renderHeatmap(data);
+
+}
+
+
+/* ==============================
+   段別統計
+============================== */
+
+function renderDanStats(data) {
+
+  danStats.innerHTML =
+    "";
+
+
+  for (
+    let dan = 2;
+    dan <= 9;
+    dan++
+  ) {
+
+    const attempts =
+      data.filter(
+        (item) =>
+          item.a === dan
+      );
+
+
+    const total =
+      attempts.length;
+
+
+    const correct =
+      attempts.filter(
+        (item) =>
+          item.correct
+      ).length;
+
+
+    const rate =
+      total === 0
+        ? null
+        : Math.round(
+            correct /
+            total *
+            100
+          );
+
+
+    const row =
+      document.createElement(
+        "div"
+      );
+
+
+    row.className =
+      "dan-stat-row";
+
+
+    const danText =
+      document.createElement(
+        "span"
+      );
+
+
+    danText.textContent =
+      `${dan}の段`;
+
+
+    const rateArea =
+      document.createElement(
+        "span"
+      );
+
+
+    rateArea.className =
+      "stat-rate";
+
+
+    const rateText =
+      document.createElement(
+        "span"
+      );
+
+
+    rateText.textContent =
+      rate === null
+        ? "－"
+        : `${rate}%`;
+
+
+    const dot =
+      document.createElement(
+        "i"
+      );
+
+
+    dot.className =
+      `rate-dot ${getRateClass(rate)}`;
+
+
+    rateArea.appendChild(
+      rateText
+    );
+
+
+    rateArea.appendChild(
+      dot
+    );
+
+
+    const count =
+      document.createElement(
+        "span"
+      );
+
+
+    count.textContent =
+      `${total}回`;
+
+
+    row.appendChild(
+      danText
+    );
+
+
+    row.appendChild(
+      rateArea
+    );
+
+
+    row.appendChild(
+      count
+    );
+
+
+    danStats.appendChild(
+      row
+    );
+
+  }
+
+}
+
+
+/* ==============================
+   ヒートマップ
+============================== */
+
+function renderHeatmap(data) {
+
+  heatmap.innerHTML =
+    "";
 
 
   /*
-    全問正解
+    左上
   */
 
-  if (mistakes.length === 0) {
-    mistakesArea.classList.add("hidden");
+  addHeatLabel("×");
 
-    return;
+
+  /*
+    横軸
+  */
+
+  for (
+    let b = 1;
+    b <= 9;
+    b++
+  ) {
+
+    addHeatLabel(
+      String(b)
+    );
+
   }
 
 
   /*
-    間違いあり
+    2〜9の段
   */
-
-  mistakesArea.classList.remove("hidden");
-
-
-  mistakes.forEach((problem) => {
-    const item =
-      document.createElement("div");
-
-    item.className =
-      "mistake-item";
-
-    item.textContent =
-      `${problem.a} × ${problem.b} = ${problem.answer}`;
-
-    mistakeList.appendChild(item);
-  });
-}
-
-
-/* ------------------------------
-   間違えた問題をもう一度
------------------------------- */
-
-retryButton.addEventListener("click", () => {
-  retryMode = true;
-
-
-  /*
-    間違えた問題だけを
-    復習問題にする
-  */
-
-  questions = mistakes.map((problem) => ({
-    a: problem.a,
-    b: problem.b,
-    answer: problem.answer
-  }));
-
-
-  /*
-    復習用に初期化
-  */
-
-  currentIndex = 0;
-  score = 0;
-  history = [];
-
-
-  showScreen(quizScreen);
-
-  updateHistory();
-  showQuestion();
-});
-
-
-/* ------------------------------
-   最初に戻る
------------------------------- */
-
-restartButton.addEventListener("click", () => {
-  history = [];
-
-  showScreen(startScreen);
-});
-
-
-backButton.addEventListener("click", () => {
-  history = [];
-
-  showScreen(startScreen);
-});
-
-
-/* ------------------------------
-   ランダム整数
------------------------------- */
-
-function randomNumber(min, max) {
-  return Math.floor(
-    Math.random() * (max - min + 1)
-  ) + min;
-}
-
-
-/* ------------------------------
-   配列シャッフル
------------------------------- */
-
-function shuffle(array) {
-  const copiedArray = [...array];
 
   for (
-    let i = copiedArray.length - 1;
+    let a = 2;
+    a <= 9;
+    a++
+  ) {
+
+    addHeatLabel(
+      String(a)
+    );
+
+
+    for (
+      let b = 1;
+      b <= 9;
+      b++
+    ) {
+
+      const attempts =
+        data.filter(
+          (item) =>
+            item.a === a &&
+            item.b === b
+        );
+
+
+      const total =
+        attempts.length;
+
+
+      const correct =
+        attempts.filter(
+          (item) =>
+            item.correct
+        ).length;
+
+
+      const rate =
+        total === 0
+          ? null
+          : Math.round(
+              correct /
+              total *
+              100
+            );
+
+
+      const cell =
+        document.createElement(
+          "div"
+        );
+
+
+      cell.classList.add(
+        "heat-cell"
+      );
+
+
+      if (rate === null) {
+
+        cell.classList.add(
+          "heat-none"
+        );
+
+        cell.textContent =
+          "－";
+
+      }
+
+      else if (rate >= 80) {
+
+        cell.classList.add(
+          "heat-excellent"
+        );
+
+        cell.textContent =
+          `${rate}%`;
+
+      }
+
+      else if (rate >= 50) {
+
+        cell.classList.add(
+          "heat-medium"
+        );
+
+        cell.textContent =
+          `${rate}%`;
+
+      }
+
+      else {
+
+        cell.classList.add(
+          "heat-weak"
+        );
+
+        cell.textContent =
+          `${rate}%`;
+
+      }
+
+
+      cell.title =
+        total === 0
+
+          ? `${a} × ${b}：未挑戦`
+
+          : `${a} × ${b}：${rate}%（${correct}/${total}）`;
+
+
+      heatmap.appendChild(
+        cell
+      );
+
+    }
+
+  }
+
+}
+
+
+/* ==============================
+   ヒートマップ見出し
+============================== */
+
+function addHeatLabel(text) {
+
+  const cell =
+    document.createElement(
+      "div"
+    );
+
+
+  cell.className =
+    "heat-cell heat-label";
+
+
+  cell.textContent =
+    text;
+
+
+  heatmap.appendChild(
+    cell
+  );
+
+}
+
+
+/* ==============================
+   色判定
+============================== */
+
+function getRateClass(rate) {
+
+  if (rate === null) {
+
+    return "none";
+
+  }
+
+
+  if (rate >= 80) {
+
+    return "excellent";
+
+  }
+
+
+  if (rate >= 50) {
+
+    return "medium";
+
+  }
+
+
+  return "weak";
+
+}
+
+
+/* ==============================
+   苦手問題作成
+============================== */
+
+function createWeakQuestions() {
+
+  const data =
+    getStudyHistory();
+
+
+  const stats =
+    [];
+
+
+  for (
+    let a = 2;
+    a <= 9;
+    a++
+  ) {
+
+    for (
+      let b = 1;
+      b <= 9;
+      b++
+    ) {
+
+      const attempts =
+        data.filter(
+          (item) =>
+            item.a === a &&
+            item.b === b
+        );
+
+
+      /*
+        一度も解いていない問題は
+        苦手判定しない
+      */
+
+      if (
+        attempts.length === 0
+      ) {
+
+        continue;
+
+      }
+
+
+      const correct =
+        attempts.filter(
+          (item) =>
+            item.correct
+        ).length;
+
+
+      const rate =
+        correct /
+        attempts.length;
+
+
+      stats.push({
+
+        a: a,
+
+        b: b,
+
+        answer:
+          a * b,
+
+        rate: rate,
+
+        attempts:
+          attempts.length
+
+      });
+
+    }
+
+  }
+
+
+  /*
+    正答率が低い順
+    同率なら挑戦回数が多い順
+  */
+
+  stats.sort(
+    (x, y) => {
+
+      if (
+        x.rate !== y.rate
+      ) {
+
+        return (
+          x.rate -
+          y.rate
+        );
+
+      }
+
+
+      return (
+        y.attempts -
+        x.attempts
+      );
+
+    }
+  );
+
+
+  /*
+    最大10問
+  */
+
+  return stats
+    .slice(
+      0,
+      TOTAL_RANDOM_QUESTIONS
+    )
+    .map(
+      (item) => ({
+
+        a: item.a,
+
+        b: item.b,
+
+        answer:
+          item.answer
+
+      })
+    );
+
+}
+
+
+/* ==============================
+   記録リセット
+============================== */
+
+clearStatsButton.addEventListener(
+  "click",
+  () => {
+
+    const result =
+      confirm(
+        "これまでの がくしゅうきろくを\nぜんぶ けしてもいい？"
+      );
+
+
+    if (!result) {
+
+      return;
+
+    }
+
+
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+
+
+    renderStats();
+
+  }
+);
+
+
+/* ==============================
+   数値ランダム
+============================== */
+
+function randomNumber(
+  min,
+  max
+) {
+
+  return Math.floor(
+    Math.random() *
+    (max - min + 1)
+  ) + min;
+
+}
+
+
+/* ==============================
+   配列シャッフル
+============================== */
+
+function shuffle(array) {
+
+  const result =
+    [...array];
+
+
+  for (
+    let i =
+      result.length - 1;
+
     i > 0;
+
     i--
   ) {
 
     const j =
       Math.floor(
-        Math.random() * (i + 1)
+        Math.random() *
+        (i + 1)
       );
 
 
     [
-      copiedArray[i],
-      copiedArray[j]
+      result[i],
+      result[j]
     ] = [
-      copiedArray[j],
-      copiedArray[i]
+      result[j],
+      result[i]
     ];
+
   }
 
-  return copiedArray;
+
+  return result;
+
 }
 
 
-/* ------------------------------
+/* ==============================
    正解メッセージ
------------------------------- */
+============================== */
 
 function randomCorrectMessage() {
+
   const messages = [
+
     "🎉 せいかい！",
+
     "⭐ すごい！",
+
     "😆 やったね！",
+
     "👏 そのちょうし！",
+
     "✨ ばっちり！"
+
   ];
 
 
-  const index =
+  return messages[
     Math.floor(
-      Math.random() * messages.length
-    );
+      Math.random() *
+      messages.length
+    )
+  ];
 
-
-  return messages[index];
 }

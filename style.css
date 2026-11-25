@@ -2,88 +2,135 @@
   box-sizing: border-box;
 }
 
+
+/* ==============================
+   基本
+============================== */
+
 body {
   margin: 0;
+
   min-height: 100vh;
+
   font-family:
     "Hiragino Kaku Gothic ProN",
     "Yu Gothic",
     "Meiryo",
     sans-serif;
-  background: linear-gradient(135deg, #fff7c7, #dff6ff);
+
   color: #333;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff8c9,
+      #ddf6ff
+    );
 }
+
 
 button,
 input {
   font: inherit;
 }
 
+
 button {
   cursor: pointer;
 }
 
-/* アプリ全体 */
 
 .app {
   width: 100%;
-  max-width: 650px;
+  max-width: 600px;
+
   margin: 0 auto;
-  padding: 30px 20px;
+
+  padding:
+    14px
+    15px
+    24px;
 }
+
 
 .screen {
   display: none;
 }
 
+
 .screen.active {
   display: block;
 }
 
-/* スタート画面 */
+
+.hidden {
+  display: none !important;
+}
+
+
+/* ==============================
+   トップ
+============================== */
 
 #start-screen {
   text-align: center;
 }
 
+
 .title-icon {
-  font-size: 70px;
+  font-size: 48px;
 }
+
 
 h1 {
-  margin: 5px 0;
-  font-size: 42px;
+  margin: 2px 0 5px;
+
   color: #ff7043;
+
+  font-size: 34px;
 }
 
+
 .subtitle {
-  font-size: 20px;
+  margin: 6px 0 18px;
+
+  font-size: 18px;
   font-weight: bold;
 }
+
 
 .dan-buttons {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-top: 30px;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 10px;
 }
+
 
 .dan-button {
-  min-height: 70px;
+  min-height: 57px;
+
   border: none;
-  border-radius: 18px;
-  background: #fff;
+  border-radius: 16px;
+
   color: #444;
-  font-size: 23px;
+
+  font-size: 20px;
   font-weight: bold;
-  box-shadow: 0 5px 0 #d7d7d7;
-  transition: transform 0.1s;
+
+  box-shadow:
+    0 4px 0
+    rgba(0, 0, 0, 0.1);
 }
 
+
 .dan-button:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 #d7d7d7;
+  transform:
+    translateY(3px);
 }
+
 
 .dan-button:nth-child(1) {
   background: #ffcccb;
@@ -117,264 +164,792 @@ h1 {
   background: #f8bbd0;
 }
 
-.dan-button.random {
-  grid-column: 1 / -1;
-  background: #ff9800;
-  color: white;
+
+.special-buttons {
+  display: grid;
+
+  gap: 9px;
+
+  margin-top: 14px;
 }
 
-/* クイズ上部 */
 
-.quiz-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.menu-button {
+  min-height: 52px;
+
+  border: none;
+  border-radius: 15px;
+
+  color: white;
+
+  font-size: 19px;
+  font-weight: bold;
+}
+
+
+.menu-button.mix {
+  background: #ff9800;
+}
+
+
+.menu-button.weak {
+  background: #ef5350;
+}
+
+
+.menu-button.stats {
+  background: #26a69a;
+}
+
+
+/* ==============================
+   戻る
+============================== */
+
+.back-button {
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: white;
+
+  color: #555;
+
+  font-weight: bold;
+}
+
+
+/* ==============================
+   モード選択
+============================== */
+
+.mode-card {
+  margin-top: 18px;
+
+  padding: 28px 22px;
+
+  border-radius: 25px;
+
+  text-align: center;
+
+  background: white;
+
+  box-shadow:
+    0 8px 20px
+    rgba(0, 0, 0, 0.08);
+}
+
+
+.mode-icon {
+  font-size: 48px;
+}
+
+
+.mode-card h2 {
+  margin:
+    5px
+    0;
+
+  font-size: 30px;
+
+  color: #1976d2;
+}
+
+
+.mode-description {
+  margin-bottom: 22px;
+
   font-size: 18px;
   font-weight: bold;
 }
 
-.small-button {
-  padding: 10px 14px;
+
+.mode-button {
+  display: flex;
+
+  width: 100%;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-top: 12px;
+
+  padding: 16px 20px;
+
   border: none;
-  border-radius: 12px;
-  background: white;
-  color: #555;
+  border-radius: 18px;
+
+  color: white;
+
+  text-align: left;
 }
 
-/* 問題カード */
+
+.mode-button.order {
+  background: #42a5f5;
+}
+
+
+.mode-button.random {
+  background: #ff9800;
+}
+
+
+.mode-button-icon {
+  font-size: 30px;
+}
+
+
+.mode-button strong {
+  display: block;
+
+  font-size: 21px;
+}
+
+
+.mode-button small {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 14px;
+}
+
+
+/* ==============================
+   クイズ
+============================== */
+
+.quiz-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+
+  font-size: 17px;
+  font-weight: bold;
+}
+
 
 .question-card {
-  padding: 35px 25px;
+  padding:
+    20px
+    25px
+    18px;
+
   text-align: center;
+
+  border-radius: 25px;
+
   background: white;
-  border-radius: 28px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+  box-shadow:
+    0 7px 18px
+    rgba(0, 0, 0, 0.08);
 }
+
 
 .dan-label {
   display: inline-block;
-  margin: 0 0 25px;
-  padding: 8px 18px;
+
+  margin:
+    0
+    0
+    14px;
+
+  padding:
+    7px
+    17px;
+
   border-radius: 100px;
+
   background: #e3f2fd;
+
   color: #1976d2;
+
   font-weight: bold;
 }
+
 
 .question {
-  margin-bottom: 30px;
-  font-size: 56px;
+  margin-bottom: 17px;
+
+  font-size: 49px;
   font-weight: bold;
-  letter-spacing: 5px;
+
+  letter-spacing: 3px;
 }
 
-#answer-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
+/* ==============================
+   回答欄
+============================== */
 
 #answer {
-  width: 160px;
-  padding: 12px;
-  border: 4px solid #64b5f6;
-  border-radius: 18px;
+  width: 150px;
+
+  padding: 8px 10px;
+
+  border:
+    4px solid
+    #64b5f6;
+
+  border-radius: 17px;
+
   outline: none;
+
   text-align: center;
-  font-size: 45px;
+
+  font-size: 42px;
   font-weight: bold;
+
+  color: #444;
 }
+
 
 #answer:focus {
   border-color: #ff9800;
 }
 
-#answer-button,
-.next-button {
-  width: 100%;
-  max-width: 300px;
-  margin-top: 20px;
-  padding: 16px;
-  border: none;
-  border-radius: 16px;
-  background: #42a5f5;
-  color: white;
+
+/* ==============================
+   メッセージ
+============================== */
+
+.message {
+  min-height: 43px;
+
+  margin-top: 10px;
+
   font-size: 22px;
   font-weight: bold;
 }
 
-.next-button {
-  background: #ff9800;
-}
-
-/* 正解・不正解 */
-
-.message {
-  min-height: 60px;
-  margin-top: 25px;
-  font-size: 25px;
-  font-weight: bold;
-}
 
 .message.correct {
   color: #2e7d32;
 }
 
+
 .message.wrong {
   color: #e53935;
 }
 
-/* 結果 */
+
+/* ==============================
+   次へ
+============================== */
+
+.next-button {
+  width: 100%;
+
+  max-width: 300px;
+
+  margin-top: 7px;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 15px;
+
+  background: #ff9800;
+
+  color: white;
+
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+/* ==============================
+   履歴
+============================== */
+
+.history-area {
+  margin-top: 16px;
+
+  padding-top: 12px;
+
+  border-top:
+    2px dashed
+    #eeeeee;
+}
+
+
+.history-title {
+  margin:
+    0
+    0
+    9px;
+
+  color: #888;
+
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+.answer-history {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+}
+
+
+.history-mark {
+  display: flex;
+
+  width: 27px;
+  height: 27px;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-size: 19px;
+  font-weight: bold;
+}
+
+
+.history-mark.correct {
+  background: #e8f7ec;
+
+  color: #20a34a;
+}
+
+
+.history-mark.wrong {
+  background: #ffebee;
+
+  color: #ef5350;
+}
+
+
+.history-mark.empty {
+  background: #f3f3f3;
+
+  color: #ccc;
+
+  font-size: 13px;
+}
+
+
+/* ==============================
+   結果
+============================== */
 
 #result-screen {
   text-align: center;
 }
 
+
 .result-icon {
-  font-size: 85px;
+  font-size: 65px;
 }
+
 
 #result-screen h2 {
-  margin: 5px 0 20px;
-  font-size: 38px;
+  margin:
+    3px
+    0
+    15px;
+
   color: #ff7043;
+
+  font-size: 32px;
 }
+
 
 .result-score {
-  padding: 25px;
+  padding: 20px;
+
+  border-radius: 20px;
+
   background: white;
-  border-radius: 22px;
-  font-size: 28px;
+
+  font-size: 25px;
   font-weight: bold;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
+
 
 .result-message {
-  margin: 25px 0;
-  font-size: 22px;
-  font-weight: bold;
-}
+  margin:
+    18px
+    0;
 
-.mistakes-area {
-  margin-top: 30px;
-  padding: 20px;
-  background: #fff8e1;
-  border-radius: 20px;
-}
-
-.mistakes-area h3 {
-  color: #ef6c00;
-}
-
-#mistake-list {
-  margin: 15px 0;
-}
-
-.mistake-item {
-  padding: 6px;
   font-size: 20px;
   font-weight: bold;
 }
+
+
+.mistakes-area {
+  margin-top: 20px;
+
+  padding: 17px;
+
+  border-radius: 18px;
+
+  background: #fff8e1;
+}
+
+
+.mistake-item {
+  padding: 4px;
+
+  font-size: 18px;
+  font-weight: bold;
+}
+
 
 .retry-button,
 .restart-button {
   width: 100%;
-  margin-top: 15px;
-  padding: 17px;
+
+  margin-top: 12px;
+
+  padding: 14px;
+
   border: none;
-  border-radius: 16px;
+  border-radius: 15px;
+
   color: white;
-  font-size: 20px;
+
+  font-size: 18px;
   font-weight: bold;
 }
+
 
 .retry-button {
   background: #ff9800;
 }
 
+
 .restart-button {
   background: #42a5f5;
 }
 
-/* 共通 */
 
-.hidden {
-  display: none !important;
-}
+/* ==============================
+   学習記録
+============================== */
 
-/* スマホ */
+.stats-header {
+  display: flex;
 
-@media (max-width: 480px) {
-  .app {
-    padding: 20px 15px;
-  }
+  align-items: center;
 
-  h1 {
-    font-size: 34px;
-  }
+  gap: 15px;
 
-  .question {
-    font-size: 45px;
-  }
-
-  .dan-button {
-    min-height: 65px;
-    font-size: 20px;
-  }
+  margin-bottom: 12px;
 }
 
 
-/* ------------------------------
-   過去10問の正誤
------------------------------- */
+.stats-header h2 {
+  margin: 0;
 
-.history-area {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 2px dashed #eeeeee;
+  font-size: 24px;
 }
 
-.history-title {
-  margin: 0 0 12px;
-  color: #888;
-  font-size: 15px;
+
+.stats-card {
+  margin-bottom: 14px;
+
+  padding: 16px;
+
+  border-radius: 20px;
+
+  background: white;
+
+  box-shadow:
+    0 5px 15px
+    rgba(0, 0, 0, 0.06);
+}
+
+
+.stats-card h3 {
+  margin:
+    0
+    0
+    12px;
+
+  font-size: 20px;
+}
+
+
+.stat-table-header,
+.dan-stat-row {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1.3fr
+    1fr;
+
+  align-items: center;
+}
+
+
+.stat-table-header {
+  padding-bottom: 7px;
+
+  color: #999;
+
+  font-size: 12px;
+}
+
+
+.dan-stat-row {
+  padding: 6px 0;
+
+  border-top:
+    1px solid
+    #eee;
+
   font-weight: bold;
 }
 
-.answer-history {
+
+.stat-rate {
   display: flex;
-  justify-content: center;
+
   align-items: center;
-  gap: 10px;
+
+  gap: 7px;
 }
 
-.history-mark {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  width: 30px;
-  height: 30px;
+.rate-dot {
+  display: inline-block;
+
+  width: 15px;
+  height: 15px;
 
   border-radius: 50%;
+}
 
-  font-size: 22px;
+
+.rate-dot.excellent {
+  background: #38c882;
+}
+
+
+.rate-dot.medium {
+  background: #f6c453;
+}
+
+
+.rate-dot.weak {
+  background: #ef5350;
+}
+
+
+.rate-dot.none {
+  background: #ddd;
+}
+
+
+/* ==============================
+   ヒートマップ
+============================== */
+
+.stats-help {
+  margin:
+    -5px
+    0
+    10px;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+.heat-legend {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+
+  font-size: 12px;
+}
+
+
+.legend-dot {
+  display: inline-block;
+
+  width: 11px;
+  height: 11px;
+
+  margin-right: 3px;
+
+  border-radius: 50%;
+}
+
+
+.legend-dot.excellent {
+  background: #45d58b;
+}
+
+
+.legend-dot.medium {
+  background: #f6c453;
+}
+
+
+.legend-dot.weak {
+  background: #ef5350;
+}
+
+
+.heatmap-wrapper {
+  overflow-x: auto;
+}
+
+
+.heatmap {
+  display: grid;
+
+  min-width: 410px;
+
+  grid-template-columns:
+    30px
+    repeat(9, 1fr);
+
+  gap: 4px;
+}
+
+
+.heat-cell {
+  display: flex;
+
+  min-height: 36px;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  font-size: 11px;
   font-weight: bold;
 }
 
-.history-mark.correct {
-  color: #2e9d47;
-  background: #e8f7ec;
+
+.heat-label {
+  background: transparent;
+
+  color: #777;
 }
 
-.history-mark.wrong {
+
+.heat-none {
+  background: #eeeeee;
+
+  color: #999;
+}
+
+
+.heat-excellent {
+  background: #55d995;
+
+  color: #124e34;
+}
+
+
+.heat-medium {
+  background: #ffd36c;
+
+  color: #664900;
+}
+
+
+.heat-weak {
+  background: #ff7b7b;
+
+  color: #731c1c;
+}
+
+
+/* ==============================
+   学習記録リセット
+============================== */
+
+.clear-stats-button {
+  width: 100%;
+
+  padding: 12px;
+
+  border:
+    1px solid
+    #ef5350;
+
+  border-radius: 14px;
+
+  background: white;
+
   color: #ef5350;
-  background: #ffebee;
+
+  font-weight: bold;
 }
 
-.history-mark.empty {
-  color: #cccccc;
-  background: #f5f5f5;
-  font-size: 15px;
+
+/* ==============================
+   スマホ
+============================== */
+
+@media (max-width: 480px) {
+
+  .app {
+    padding:
+      10px
+      15px
+      18px;
+  }
+
+
+  .title-icon {
+    font-size: 42px;
+  }
+
+
+  h1 {
+    font-size: 30px;
+  }
+
+
+  .question {
+    font-size: 44px;
+  }
+
+
+  .question-card {
+    padding:
+      18px
+      20px
+      16px;
+  }
+
+
+  .history-mark {
+    width: 25px;
+    height: 25px;
+
+    font-size: 17px;
+  }
+
+
+  .answer-history {
+    gap: 5px;
+  }
+
 }

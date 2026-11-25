@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>九九れんしゅう</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="app">
+    <!-- スタート画面 -->
+    <section id="start-screen" class="screen active">
+      <div class="title-icon">🌟</div>
+      <h1>九九れんしゅう</h1>
+      <p class="subtitle">れんしゅうする「だん」を えらぼう！</p>
+
+      <div class="dan-buttons">
+        <button class="dan-button" data-dan="2">2のだん</button>
+        <button class="dan-button" data-dan="3">3のだん</button>
+        <button class="dan-button" data-dan="4">4のだん</button>
+        <button class="dan-button" data-dan="5">5のだん</button>
+        <button class="dan-button" data-dan="6">6のだん</button>
+        <button class="dan-button" data-dan="7">7のだん</button>
+        <button class="dan-button" data-dan="8">8のだん</button>
+        <button class="dan-button" data-dan="9">9のだん</button>
+        <button class="dan-button random" data-dan="random">
+          🔀 ごちゃまぜ
+        </button>
+      </div>
+    </section>
+
+    <!-- 問題画面 -->
+    <section id="quiz-screen" class="screen">
+      <div class="quiz-header">
+        <button id="back-button" class="small-button">← もどる</button>
+        <div id="progress">1 / 10</div>
+        <div id="score">⭐ 0</div>
+      </div>
+
+      <div class="question-card">
+        <p id="dan-label" class="dan-label">2のだん</p>
+
+        <div id="question" class="question">
+          2 × 3 = ?
+        </div>
+
+        <form id="answer-form">
+<input
+  id="answer"
+  type="text"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  autocomplete="off"
+  enterkeyhint="done"
+  maxlength="2"
+  placeholder="?"
+  aria-label="こたえ"
+>
+
+
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <button id="next-button" class="next-button hidden">
+          つぎのもんだい →
+        </button>
+
+        <div id="history-area" class="history-area">
+            <p class="history-title">これまで</p>
+
+            <div id="answer-history" class="answer-history">
+                <!-- JavaScriptで〇×を表示 -->
+            </div>
+        </div>
+
+    </div>
+    </section>
+
+    <!-- 結果画面 -->
+    <section id="result-screen" class="screen">
+      <div id="result-icon" class="result-icon">🎉</div>
+
+      <h2>おつかれさま！</h2>
+
+      <div id="result-score" class="result-score">
+        10もんちゅう 8もん せいかい！
+      </div>
+
+      <p id="result-message" class="result-message"></p>
+
+      <div id="mistakes-area" class="mistakes-area hidden">
+        <h3>もういちど やってみよう！</h3>
+        <div id="mistake-list"></div>
+        <button id="retry-button" class="retry-button">
+          🔥 まちがえたもんだいに ちょうせん！
+        </button>
+      </div>
+
+      <button id="restart-button" class="restart-button">
+        🏠 だんを えらぶ
+      </button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

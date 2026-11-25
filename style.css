@@ -1,0 +1,380 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family:
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  background: linear-gradient(135deg, #fff7c7, #dff6ff);
+  color: #333;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* アプリ全体 */
+
+.app {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* スタート画面 */
+
+#start-screen {
+  text-align: center;
+}
+
+.title-icon {
+  font-size: 70px;
+}
+
+h1 {
+  margin: 5px 0;
+  font-size: 42px;
+  color: #ff7043;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.dan-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.dan-button {
+  min-height: 70px;
+  border: none;
+  border-radius: 18px;
+  background: #fff;
+  color: #444;
+  font-size: 23px;
+  font-weight: bold;
+  box-shadow: 0 5px 0 #d7d7d7;
+  transition: transform 0.1s;
+}
+
+.dan-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #d7d7d7;
+}
+
+.dan-button:nth-child(1) {
+  background: #ffcccb;
+}
+
+.dan-button:nth-child(2) {
+  background: #ffe3a3;
+}
+
+.dan-button:nth-child(3) {
+  background: #fff59d;
+}
+
+.dan-button:nth-child(4) {
+  background: #c8e6c9;
+}
+
+.dan-button:nth-child(5) {
+  background: #b2ebf2;
+}
+
+.dan-button:nth-child(6) {
+  background: #bbdefb;
+}
+
+.dan-button:nth-child(7) {
+  background: #d1c4e9;
+}
+
+.dan-button:nth-child(8) {
+  background: #f8bbd0;
+}
+
+.dan-button.random {
+  grid-column: 1 / -1;
+  background: #ff9800;
+  color: white;
+}
+
+/* クイズ上部 */
+
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.small-button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  background: white;
+  color: #555;
+}
+
+/* 問題カード */
+
+.question-card {
+  padding: 35px 25px;
+  text-align: center;
+  background: white;
+  border-radius: 28px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dan-label {
+  display: inline-block;
+  margin: 0 0 25px;
+  padding: 8px 18px;
+  border-radius: 100px;
+  background: #e3f2fd;
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.question {
+  margin-bottom: 30px;
+  font-size: 56px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+#answer-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#answer {
+  width: 160px;
+  padding: 12px;
+  border: 4px solid #64b5f6;
+  border-radius: 18px;
+  outline: none;
+  text-align: center;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+#answer:focus {
+  border-color: #ff9800;
+}
+
+#answer-button,
+.next-button {
+  width: 100%;
+  max-width: 300px;
+  margin-top: 20px;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  background: #42a5f5;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.next-button {
+  background: #ff9800;
+}
+
+/* 正解・不正解 */
+
+.message {
+  min-height: 60px;
+  margin-top: 25px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.message.correct {
+  color: #2e7d32;
+}
+
+.message.wrong {
+  color: #e53935;
+}
+
+/* 結果 */
+
+#result-screen {
+  text-align: center;
+}
+
+.result-icon {
+  font-size: 85px;
+}
+
+#result-screen h2 {
+  margin: 5px 0 20px;
+  font-size: 38px;
+  color: #ff7043;
+}
+
+.result-score {
+  padding: 25px;
+  background: white;
+  border-radius: 22px;
+  font-size: 28px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.result-message {
+  margin: 25px 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.mistakes-area {
+  margin-top: 30px;
+  padding: 20px;
+  background: #fff8e1;
+  border-radius: 20px;
+}
+
+.mistakes-area h3 {
+  color: #ef6c00;
+}
+
+#mistake-list {
+  margin: 15px 0;
+}
+
+.mistake-item {
+  padding: 6px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.retry-button,
+.restart-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 17px;
+  border: none;
+  border-radius: 16px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.retry-button {
+  background: #ff9800;
+}
+
+.restart-button {
+  background: #42a5f5;
+}
+
+/* 共通 */
+
+.hidden {
+  display: none !important;
+}
+
+/* スマホ */
+
+@media (max-width: 480px) {
+  .app {
+    padding: 20px 15px;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+
+  .question {
+    font-size: 45px;
+  }
+
+  .dan-button {
+    min-height: 65px;
+    font-size: 20px;
+  }
+}
+
+
+/* ------------------------------
+   過去10問の正誤
+------------------------------ */
+
+.history-area {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px dashed #eeeeee;
+}
+
+.history-title {
+  margin: 0 0 12px;
+  color: #888;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.answer-history {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-mark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.history-mark.correct {
+  color: #2e9d47;
+  background: #e8f7ec;
+}
+
+.history-mark.wrong {
+  color: #ef5350;
+  background: #ffebee;
+}
+
+.history-mark.empty {
+  color: #cccccc;
+  background: #f5f5f5;
+  font-size: 15px;
+}

@@ -76,8 +76,11 @@ const modeTitle =
 const practiceModeArea =
   document.getElementById("practice-mode-area");
 
-const orderButton =
-  document.getElementById("order-button");
+const ascendingButton =
+  document.getElementById("ascending-button");
+
+const descendingButton =
+  document.getElementById("descending-button");
 
 const randomButton =
   document.getElementById("random-button");
@@ -209,7 +212,7 @@ const clearStatsButton =
 
 let selectedDan = null;
 
-let gameMode = "order";
+let gameMode = "ascending";
 
 let selectedDifficulty =
   "easy";
@@ -304,7 +307,7 @@ danButtons.forEach(
           );
 
         gameMode =
-          "order";
+          "ascending";
 
         modeTitle.textContent =
           `${selectedDan}のだん`;
@@ -425,12 +428,25 @@ modeBackButton.addEventListener(
    練習モード
 ========================= */
 
-orderButton.addEventListener(
+ascendingButton.addEventListener(
   "click",
   () => {
 
     gameMode =
-      "order";
+      "ascending";
+
+    updatePracticeModeButtons();
+
+  }
+);
+
+
+descendingButton.addEventListener(
+  "click",
+  () => {
+
+    gameMode =
+      "descending";
 
     updatePracticeModeButtons();
 
@@ -453,9 +469,14 @@ randomButton.addEventListener(
 
 function updatePracticeModeButtons() {
 
-  orderButton.classList.toggle(
+  ascendingButton.classList.toggle(
     "selected",
-    gameMode === "order"
+    gameMode === "ascending"
+  );
+
+  descendingButton.classList.toggle(
+    "selected",
+    gameMode === "descending"
   );
 
   randomButton.classList.toggle(
@@ -543,15 +564,21 @@ startBattleButton.addEventListener(
 function createQuestions() {
 
   if (
-    gameMode === "order"
+    gameMode === "ascending" ||
+    gameMode === "descending"
   ) {
+
+    const isDescending =
+      gameMode === "descending";
 
     return Array.from(
       { length: 9 },
       (_, index) => {
 
         const b =
-          index + 1;
+          isDescending
+            ? 9 - index
+            : index + 1;
 
         return {
           a: selectedDan,
@@ -763,11 +790,20 @@ function showQuestion() {
   }
 
   else if (
-    gameMode === "order"
+    gameMode === "ascending"
   ) {
 
     danLabel.textContent =
-      `${selectedDan}のだん・じゅんばん`;
+      `${selectedDan}のだん・のぼり`;
+
+  }
+
+  else if (
+    gameMode === "descending"
+  ) {
+
+    danLabel.textContent =
+      `${selectedDan}のだん・くだり`;
 
   }
 
@@ -1263,6 +1299,16 @@ function checkAnswer(
 
   updateHistory();
 
+  if (
+    heroLife === 0
+  ) {
+
+    showResult();
+
+    return;
+
+  }
+
 
   numberPad.classList.add(
     "hidden"
@@ -1540,31 +1586,47 @@ function showResult() {
     resultScreen
   );
 
+  const cleared =
+    monsterHp === 0;
+
 
   resultIcon.textContent =
-    "🏆";
+    cleared
+      ? "🏆"
+      : "💔";
 
 
   resultTitle.textContent =
-    "モンスターを たおした！";
+    cleared
+      ? "モンスターを たおした！"
+      : "ライフがなくなった！";
 
 
   resultMonster.textContent =
-    "👾💥";
+    cleared
+      ? "👾💥"
+      : "👾";
 
 
   resultScore.textContent =
-    `${questions.length}もんちゅう ${score}もん せいかい！`;
+    `${history.length}もんちゅう ${score}もん せいかい！`;
 
 
   const rate =
-    questions.length === 0
+    history.length === 0
       ? 0
       : score /
-        questions.length;
+        history.length;
 
 
-  if (
+  if (!cleared) {
+
+    resultMessage.textContent =
+      "ライフがなくなったよ！ また ちょうせんしてね！";
+
+  }
+
+  else if (
     rate === 1
   ) {
 
@@ -1582,9 +1644,7 @@ function showResult() {
 
   }
 
-  else if (
-    heroLife > 0
-  ) {
+  else if (heroLife > 0) {
 
     resultMessage.textContent =
       "やったね！ さいごまで よくがんばった！";
@@ -1594,7 +1654,7 @@ function showResult() {
   else {
 
     resultMessage.textContent =
-      "ライフがなくなっても さいごまで がんばったね！";
+      "ライフがなくなったけど さいごまで がんばったね！";
 
   }
 
